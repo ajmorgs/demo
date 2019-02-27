@@ -9,7 +9,7 @@ import java.awt.event.ComponentListener;
 public class GameFrame extends JFrame {
 
     private JLabel msgLabel;
-    private JOptionPane optionPane;
+    JPanel gamePanel;
     String whose_turn="X";
     TicTacToe game;
 
@@ -38,7 +38,7 @@ public class GameFrame extends JFrame {
 
         add(topPanel);
 
-        JPanel gamePanel=new JPanel();
+        gamePanel=new JPanel();
         gamePanel.setLayout(new GridLayout(3,3));
 
         TicTacToeButton [] button = new TicTacToeButton[9];
@@ -75,12 +75,15 @@ public class GameFrame extends JFrame {
             int row=(index[0]/3);
             int col=(index[0] % 3);
 
-            System.out.println(row + "," + col);
+          //  System.out.println(row + "," + col);
 
             game.set(row,col,whose_turn);
+          //  System.out.println(game.getTurns());
 
+            game.setTurns(game.getTurns() + 1);
             //check for win/tie
-            game.checkGameStatus();
+            String msg=game.checkGameStatus();
+            if(!msg.equals("")){JOptionPane.showMessageDialog(gamePanel,msg);}
 
             //set for next turn
             if(whose_turn.equals("X")){
