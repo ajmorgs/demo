@@ -7,13 +7,13 @@
 
 
 #### Self Assessment
--[ ] The program runs with no errors.
--[ ] Created a GUI application.
--[ ] Logic is sound.
--[ ] Proper usage of Git and GitHub (frequent commits, explanatory commit messages)
+-[x] The program runs with no errors.
+-[x] Created a GUI application.
+-[x] Logic is sound.
+-[x] Proper usage of Git and GitHub (frequent commits, explanatory commit messages)
 
 
 
-**Your Grade:** .../20
+**Your Grade:** 20/20
 
 **Notes:**
