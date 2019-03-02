@@ -2,10 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RockPaperScissorsFrame extends JFrame {
 
-    JButton quitButton;JButton rockButton;JButton paperButton;JButton scissorsButton;
+    JButton quitButton;
+    GameButton rockButton;GameButton paperButton;GameButton scissorsButton;
     ImageIcon quitIcon;ImageIcon rockIcon;ImageIcon paperIcon;ImageIcon scissorsIcon;
     JTextArea statusText;
     JPanel buttonPanel; JPanel statsPanel; JPanel resultsPanel;
@@ -14,6 +17,10 @@ public class RockPaperScissorsFrame extends JFrame {
     JLabel userLabel;JLabel computerLabel;JLabel tiesLabel;
     int rocks; int papers; int scissors;
     int pc_rocks; int pc_papers; int pc_scissors;
+    ArrayList<String> opts = new ArrayList<>();
+    int number_of_games=0;
+    String userChoice="";
+    String computerChoice="";
 
     public RockPaperScissorsFrame() throws HeadlessException {
         createComponents();
@@ -21,35 +28,30 @@ public class RockPaperScissorsFrame extends JFrame {
 
     private void createComponents() {
 
-        //top - 4 buttons with icons
+        opts.add("rock");
+        opts.add("paper");
+        opts.add("scissors");
+
         GameListener btnListener = new GameListener();
+
+        //top - 4 buttons with icons
 
         quitIcon = new ImageIcon(getClass().getResource("quit.jpg"));
         rockIcon = new ImageIcon(getClass().getResource("rock.jpg"));
         paperIcon = new ImageIcon(getClass().getResource("paper.jpg"));
         scissorsIcon = new ImageIcon(getClass().getResource("scissors.jpg"));
 
-        quitButton = new JButton("Quit");
-        quitButton.setIcon(quitIcon);
+        quitButton = new JButton(quitIcon);
         quitButton.setPreferredSize(new Dimension(100,100));
         quitButton.addActionListener((ActionEvent event) -> System.exit(0));
         quitButton.setMargin(new Insets(20, 40, 20, 20));
 
-        rockButton = new JButton();
-        rockButton.setIcon(rockIcon);
-        rockButton.setPreferredSize(new Dimension(100,100));
-        rockButton.setHorizontalAlignment(SwingConstants.CENTER);
-        rockButton.putClientProperty("symbol","rock");
+        rockButton = new GameButton(rockIcon,"rock");
         rockButton.addActionListener(btnListener);
-
-        paperButton=new JButton();
-        paperButton.setIcon(paperIcon);
-        paperButton.setPreferredSize(new Dimension(100,100));
-        paperButton.setHorizontalAlignment(SwingConstants.CENTER);
-        scissorsButton=new JButton();
-        scissorsButton.setIcon(scissorsIcon);
-        scissorsButton.setPreferredSize(new Dimension(100,100));
-        scissorsButton.setHorizontalAlignment(SwingConstants.CENTER);
+        paperButton=new GameButton(paperIcon,"paper");
+        paperButton.addActionListener(btnListener);
+        scissorsButton=new GameButton(scissorsIcon,"scissors");
+        scissorsButton.addActionListener(btnListener);
 
         buttonPanel=new JPanel();
         buttonPanel.setPreferredSize(new Dimension(300,200));
@@ -103,8 +105,65 @@ public class RockPaperScissorsFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton btn=(JButton)e.getSource();
-            statusText.setText(btn.getClientProperty("symbol").toString());
+
+            int x= ThreadLocalRandom.current().nextInt(0, 2+1);
+
+            //statusText.append(btn.getClientProperty("symbol").toString() + "\n");
+            System.out.println(btn.getClientProperty("symbol").toString());
+            userChoice=btn.getClientProperty("symbol").toString();
+
+            //get computer choice
+
+            if(number_of_games % 10 == 1){
+                //computer cheats
+
+
+            }
+            System.out.println(rocks);
         }
 
+    }
+    class GameButton extends JButton  {
+
+      public GameButton(Icon icon, String s) {
+          super(icon);
+          setHorizontalAlignment(SwingConstants.CENTER);
+          setPreferredSize(new Dimension(100,100));
+          putClientProperty("symbol",s);
+      }
+    }
+    String JudgeGame(String userChoice,String computerChoice,int cheat){
+        String ruling = "";
+
+        if (userChoice.equals(computerChoice) && cheat < 1) {
+            ruling = "Game is a tie";
+        }
+        switch(userChoice){
+            case "rock":
+                rocks=rocks+1;
+                if(computerChoice.equals("scissors") && cheat < 1){
+                    ruling = "Rock breaks Scissors (Player Wins)";
+
+                }
+                break;
+            case "paper":
+                papers=papers+1;
+                if(computerChoice.equals("rock") && cheat < 1){
+                    ruling = "Paper covers Rock (Player Wins)";
+
+                }
+                break;
+            case "scissors":
+                scissors=scissors+1;
+                if(computerChoice.equals("paper") && cheat < 1){
+                    ruling = "Scissors cut Paper (Player Wins)";
+
+                }
+                break;
+            default:
+                break;
+        }
+
+        return ruling;
     }
 }
