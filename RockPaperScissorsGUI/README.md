@@ -19,3 +19,5 @@
 **Your Grade:** 20/20
 
 **Notes:**
+Had difficult time of getting into github after network password changed. IntelliJ did not want to cooperate. That's why
+the extra folder in the repository that I don't know how to get rid of.
