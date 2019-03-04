@@ -16,6 +16,6 @@
 
 
 
-**Your Grade:** 20s/20
+**Your Grade:** 20/20
 
 **Notes:**
