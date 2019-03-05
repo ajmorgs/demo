@@ -61,6 +61,7 @@ public class RockPaperScissorsFrame extends JFrame {
         buttonPanel.add(paperButton);
         buttonPanel.add(scissorsButton);
         buttonPanel.add(quitButton);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         add(buttonPanel, BorderLayout.NORTH);
 
         statsPanel = new JPanel();
