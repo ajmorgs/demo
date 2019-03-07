@@ -10,8 +10,9 @@ public class PizzaOrderFrame extends JFrame {
     JButton quitButton; JButton orderButton; JButton clearButton;
 
     JTextArea statusText;
-    JPanel crustPanel; JPanel toppingsPanel; JPanel finalPanel;
+    PizzaPanel crustPanel; PizzaPanel sizePanel; PizzaPanel toppingsPanel; JPanel resultsPanel; JPanel finalPanel;
     JScrollPane scrollPane;
+    JCheckBox checkbox;
 
     JLabel userLabel;JLabel computerLabel;JLabel tiesLabel;
 
@@ -21,43 +22,62 @@ public class PizzaOrderFrame extends JFrame {
 
     private void exitPrompt(){
 
-        int dialogButton = JOptionPane.YES_NO_OPTION;
-        JOptionPane.showConfirmDialog (null, "Would You Like to Quit the Application","Warning",dialogButton);
-
-        if (dialogButton == JOptionPane.YES_OPTION) {
+        int dialogButton = JOptionPane.OK_CANCEL_OPTION;
+        int input=JOptionPane.showConfirmDialog (null, "Would You Like to Quit the Application","Warning",dialogButton);
+        System.out.println(input);
+        if (input==0) {
             System.exit(0);
         }
     }
 
     private void createComponents() {
 
-       // GameListener btnListener = new GameListener();
+        JPanel mainPanel = new JPanel(new FlowLayout());
 
-        quitButton = new JButton("Quit");
-        quitButton.setPreferredSize(new Dimension(100,80));
-        quitButton.addActionListener((ActionEvent event) -> exitPrompt());
-        quitButton.setMargin(new Insets(5, 5, 5, 5));
+        JComboBox pizzaSizes = new JComboBox();
+        pizzaSizes.addItem("Small");
+        pizzaSizes.addItem("Medium");
+        pizzaSizes.addItem("Large");
+        pizzaSizes.addItem("Super");
+        pizzaSizes.setSelectedIndex(0);
 
+        sizePanel=new PizzaPanel(new FlowLayout(),"Size");
+        sizePanel.add(pizzaSizes);
 
+        mainPanel.add(sizePanel);
 
+        JRadioButton thinCrust=new JRadioButton("Thin");
+        JRadioButton regularCrust=new JRadioButton("Regular");
+        JRadioButton deepCrust=new JRadioButton("Deep-dish");
+        thinCrust.setBounds(75,50,100,30);
+        regularCrust.setBounds(75,100,100,30);
+        deepCrust.setBounds(75,150,100,30);
 
-    /*    statsPanel = new JPanel();
-        statsPanel.setPreferredSize(new Dimension(100,100));
-        userLabel=new JLabel("User Wins: ");
-        txtUserWins=new JTextField(10);
-        computerLabel=new JLabel("Computer Wins: ");
-        txtComputerWins=new JTextField(10);
-        tiesLabel=new JLabel("Ties: ");
-        txtTies=new JTextField(10);
+        ButtonGroup bg=new ButtonGroup();
+        bg.add(thinCrust);bg.add(regularCrust);bg.add(deepCrust);
 
-        statsPanel.add(userLabel);
-        statsPanel.add(txtUserWins);
-        statsPanel.add(computerLabel);
-        statsPanel.add(txtComputerWins);
-        statsPanel.add(tiesLabel);
-        statsPanel.add(txtTies);
+        crustPanel=new PizzaPanel(new FlowLayout(),"Crust Type");
 
-        add(statsPanel, BorderLayout.CENTER);*/
+        crustPanel.add(thinCrust);
+        crustPanel.add(regularCrust);
+        crustPanel.add(deepCrust);
+        crustPanel.setPreferredSize(new Dimension(300,60));
+        crustPanel.setBorder(BorderFactory.createTitledBorder("Crust Type"));
+
+        mainPanel.add(crustPanel);
+
+        String s1[] = { "Green Peppers", "Onions", "Mushrooms", "Tomato", "Anchovies","Chicken","Pineapple" };
+
+        toppingsPanel = new PizzaPanel(new FlowLayout(),"Toppings");
+
+        for(int x=0; x< s1.length; x++){
+            checkbox = new JCheckBox(s1[x]);
+            toppingsPanel.add(checkbox);
+        }
+
+        mainPanel.add(toppingsPanel);
+
+        add(mainPanel);
 
         statusText = new JTextArea(10,40);
         statusText.setEditable(false);
@@ -66,96 +86,41 @@ public class PizzaOrderFrame extends JFrame {
         statusText.setWrapStyleWord(true);
 
         scrollPane = new JScrollPane(statusText);
-        scrollPane.setPreferredSize(new Dimension(350, 300));
+        scrollPane.setPreferredSize(new Dimension(600, 300));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-       // resultsPanel = new JPanel();
-       // resultsPanel.add(scrollPane);
+        resultsPanel = new JPanel();
+        resultsPanel.add(scrollPane);
 
+        mainPanel.add(resultsPanel);
 
-       // add(resultsPanel,BorderLayout.SOUTH);
+        orderButton = new JButton("Order");
+        orderButton.setPreferredSize(new Dimension(100,80));
+      //  orderButton.addActionListener((ActionEvent event) -> exitPrompt());
+        orderButton.setMargin(new Insets(5, 5, 5, 5));
 
-        setSize(800, 800);
-        setBounds(200,200,600,600);
+        mainPanel.add(orderButton);
+
+        clearButton = new JButton("Clear");
+        clearButton.setPreferredSize(new Dimension(100,80));
+      //  clearButton.addActionListener((ActionEvent event) -> exitPrompt());
+        clearButton.setMargin(new Insets(5, 5, 5, 5));
+
+        mainPanel.add(clearButton);
+
+        quitButton = new JButton("Quit");
+        quitButton.setPreferredSize(new Dimension(100,80));
+        quitButton.addActionListener((ActionEvent event) -> exitPrompt());
+        quitButton.setMargin(new Insets(5, 5, 5, 5));
+
+        mainPanel.add(quitButton);
+
+        setSize(900, 600);
+        setBounds(200,200,700,600);
+
         repaint();
-        setTitle("Rock Paper Scissors Game”");
+        setTitle("Order your Pizza");
 
     }
 
-    class GameListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          /*  JButton btn=(JButton)e.getSource();
-
-            int x= ThreadLocalRandom.current().nextInt(0, 2+1);
-
-            userChoice=btn.getClientProperty("symbol").toString();
-
-            number_of_games+=1;
-            int cheat=0;
-            //get computer choice
-            if(number_of_games % 10 == 1){
-                //computer cheats
-                cheat=1;
-            }else{
-                computerChoice=opts.get(x);
-            }
-//computerChoice="scissors";
-
-            statusText.append(JudgeGame(userChoice,computerChoice,cheat) + "\n");*/
-        }
-
-    }
-   /* class GameButton extends JButton  {
-
-        public GameButton(Icon icon, String s) {
-            super(icon);
-            setHorizontalAlignment(SwingConstants.CENTER);
-            setPreferredSize(new Dimension(100,100));
-            putClientProperty("symbol",s);
-        }
-    }
-    String JudgeGame(String userChoice,String computerChoice,int cheat){
-        String ruling = "";
-
-        if (userChoice.equals(computerChoice) && cheat < 1) {
-            ruling = "Game is a tie";ties+=1;
-        }else{
-            switch(userChoice){
-                case "rock":
-                    rocks=rocks+1;
-                    if(computerChoice.equals("scissors") && cheat < 1){
-                        ruling = "Rock breaks Scissors (Player Wins)";userWins+=1;
-                    }else{
-                        ruling = "Paper covers Rock (Computer Wins)";computerWins+=1;
-                    }
-                    break;
-                case "paper":
-                    papers=papers+1;
-                    if(computerChoice.equals("rock") && cheat < 1){
-                        ruling = "Paper covers Rock (Player Wins)";userWins+=1;
-                    }else{
-                        ruling = "Scissors cuts Paper (Computer Wins)";computerWins+=1;
-                    }
-                    break;
-                case "scissors":
-                    scissors=scissors+1;
-                    if(computerChoice.equals("paper") && cheat < 1){
-                        ruling = "Scissors cut Paper (Player Wins)";userWins+=1;
-                    }else{
-                        ruling = "Rock breaks Scissors (Computer Wins)";computerWins+=1;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
-
-        txtUserWins.setText(Integer.toString(userWins));
-        txtComputerWins.setText(Integer.toString(computerWins));
-        txtTies.setText(Integer.toString(ties));
-
-        return ruling;
-    }*/
 }
