@@ -1,5 +1,6 @@
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -30,10 +31,32 @@ public class StudentStreamMain {
             System.out.println(ex.getMessage());
         }
 
-        for (Student z:students
+        //do stream processes to get requested data
+        //1. Count the students with 3.7 GPA and higher.
+        long above37 = students.stream()
+                .filter(n -> (n.getGpa()) > 3.6)
+                .count();
+        System.out.println(above37);
+
+        // 2. List the students with 4.0 GPA.
+        students.stream()
+                .filter(n -> (n.getGpa()) == 4.0)
+                .forEach(w -> System.out.println(w.name));
+
+
+
+       /* 1. Count the students with 3.7 GPA and higher.
+        2. List the students with 4.0 GPA.
+        3. Out of the 4.0 Students who’s taking more classes?
+        4. What’s the Average GPA for this set of data?
+                5. What’s the lowest GPA?
+        6. Use the IntSummaryStatistics Class to show statistics on the number of Credit Hours (CR)
+        students are taking.*/
+
+      /*  for (Student z:students
              ) {
             System.out.println(z.studentID + ": " +z.name);
-        }
+        }*/
     }
 
     public static void makeStudent(String x) {
