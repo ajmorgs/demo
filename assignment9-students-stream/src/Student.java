@@ -1,17 +1,20 @@
 public class Student {
-    int studentID;
+    String studentID;
     String name;
-    double gps;
-    int creditHours;
+    double gpa;
+    int credits;
 
-    public Student(int studentID, String name, double gps, int creditHours) {
+    public Student(String studentID, String name, double gpa, int credits) {
         this.studentID = studentID;
         this.name = name;
-        this.gps = gps;
-        this.creditHours = creditHours;
+        this.gpa = gpa;
+        this.credits = credits;
     }
 
-    public int getStudentID() {
+    public Student() {
+    }
+
+    public String getStudentID() {
         return studentID;
     }
 
@@ -19,11 +22,11 @@ public class Student {
         return name;
     }
 
-    public double getGps() {
-        return gps;
+    public double getGpa() {
+        return gpa;
     }
 
-    public int getCreditHours() {
-        return creditHours;
+    public int getCredits() {
+        return credits;
     }
 }
