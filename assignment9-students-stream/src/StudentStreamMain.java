@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 
 public class StudentStreamMain {
     public static ArrayList<Student> students = new ArrayList<Student>();
-    public static ArrayList myList = new ArrayList();
     public static List<String> listOfString = null;
 
     public static void main(String[] args) {
